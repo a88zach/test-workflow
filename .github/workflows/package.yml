@@ -35,6 +35,7 @@ jobs:
       isReleasePublished: ${{ steps.set-new-release.outputs.isReleasePublished }}
       releaseVersion: ${{ steps.set-new-release.outputs.releaseVersion }}
       releaseNotes: ${{ steps.set-new-release.outputs.releaseNotes }}
+    steps:
       - name: Run Semantic Release
         working-directory: ./packages/package1
         id: semantic
