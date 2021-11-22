@@ -7,14 +7,10 @@ env:
   NODE_VERSION: 14.x
 
 jobs:
-  semantic-release:
-    name: semantic-release
+  prepare:
+    name: prepare
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
-    outputs:
-      isReleasePublished: ${{ steps.set-new-release.outputs.isReleasePublished }}
-      releaseVersion: ${{ steps.set-new-release.outputs.releaseVersion }}
-      releaseNotes: ${{ steps.set-new-release.outputs.releaseNotes }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v2.4.0
@@ -27,6 +23,17 @@ jobs:
       - name: Install dependencies
         run: yarn install --frozen-lockfile
 
+  semantic-release:
+    name: semantic release
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./packages/package1
+    outputs:
+      isReleasePublished: ${{ steps.set-new-release.outputs.isReleasePublished }}
+      releaseVersion: ${{ steps.set-new-release.outputs.releaseVersion }}
+      releaseNotes: ${{ steps.set-new-release.outputs.releaseNotes }}
       - name: Run Semantic Release
         working-directory: ./packages/package1
         id: semantic
