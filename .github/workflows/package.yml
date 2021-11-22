@@ -37,7 +37,6 @@ jobs:
       releaseNotes: ${{ steps.set-new-release.outputs.releaseNotes }}
     steps:
       - name: Run Semantic Release
-        working-directory: ./packages/package1
         id: semantic
         uses: cycjimmy/semantic-release-action@v2
         with:
