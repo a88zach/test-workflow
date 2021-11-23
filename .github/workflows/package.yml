@@ -11,10 +11,6 @@ jobs:
     name: semantic-release
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
-    outputs:
-      isReleasePublished: ${{ steps.set-new-release.outputs.isReleasePublished }}
-      releaseVersion: ${{ steps.set-new-release.outputs.releaseVersion }}
-      releaseNotes: ${{ steps.set-new-release.outputs.releaseNotes }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v2.4.0
@@ -32,20 +28,6 @@ jobs:
         working-directory: ./packages/package1
         run: |
           npx semantic-release
-          echo "::set-output name=new_release_published::$new_release_published"
-          echo "::set-output name=new_release_version::$new_release_version"
-          echo "::set-output name=new_release_notes::$new_release_notes"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-      - name: Get release ${{ env.RELEASE_VERSION }} details (isReleasePublished -> ${{ env.IS_RELEASE_PUBLISHED }})
-        id: set-new-release
-        run: |
-          echo "::set-output name=isReleasePublished::$IS_RELEASE_PUBLISHED"
-          echo "::set-output name=releaseVersion::$RELEASE_VERSION"
-          echo "::set-output name=releaseNotes::$RELEASE_NOTES"
-        env:
-          IS_RELEASE_PUBLISHED: ${{ steps.semantic.outputs.new_release_published }}
-          RELEASE_VERSION: ${{ steps.semantic.outputs.new_release_version }}
-          RELEASE_NOTES: ${{ steps.semantic.outputs.new_release_notes }}

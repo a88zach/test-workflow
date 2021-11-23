@@ -12,9 +12,6 @@
     "url": "https://github.com/a88zach/test-workflow/issues"
   },
   "homepage": "https://github.com/a88zach/test-workflow#readme",
-  "devDependencies": {
-    "semantic-release": "18.0.0"
-  },
   "release": {
     "branches": "main",
     "tagFormat": "types${version}",
