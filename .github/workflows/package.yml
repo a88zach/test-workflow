@@ -7,10 +7,14 @@ env:
   NODE_VERSION: 14.x
 
 jobs:
-  prepare:
-    name: prepare
+  semantic-release:
+    name: semantic-release
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
+    outputs:
+      isReleasePublished: ${{ steps.set-new-release.outputs.isReleasePublished }}
+      releaseVersion: ${{ steps.set-new-release.outputs.releaseVersion }}
+      releaseNotes: ${{ steps.set-new-release.outputs.releaseNotes }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v2.4.0
@@ -23,24 +27,14 @@ jobs:
       - name: Install dependencies
         run: yarn install --frozen-lockfile
 
-  semantic-release:
-    name: semantic release
-    needs: prepare
-    if: github.ref == 'refs/heads/main'
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./packages/package1
-    outputs:
-      isReleasePublished: ${{ steps.set-new-release.outputs.isReleasePublished }}
-      releaseVersion: ${{ steps.set-new-release.outputs.releaseVersion }}
-      releaseNotes: ${{ steps.set-new-release.outputs.releaseNotes }}
-    steps:
       - name: Run Semantic Release
         id: semantic
-        uses: cycjimmy/semantic-release-action@v2
-        with:
-          branch: main
+        working-directory: ./packages/package1
+        run: |
+          npx semantic-release
+          echo "::set-output name=new_release_published::$new_release_published"
+          echo "::set-output name=new_release_version::$new_release_version"
+          echo "::set-output name=new_release_notes::$new_release_notes"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

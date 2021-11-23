@@ -1,7 +1,7 @@
 {
-  "name": "test-workflow",
-  "version": "1.0.0",
-  "description": "testing workflow",
+  "name": "test-workflow-types",
+  "version": "0.0.0-development",
+  "description": "testing workflow types",
   "main": "index.js",
   "repository": {
     "type": "git",
@@ -11,5 +11,15 @@
   "bugs": {
     "url": "https://github.com/a88zach/test-workflow/issues"
   },
-  "homepage": "https://github.com/a88zach/test-workflow#readme"
+  "homepage": "https://github.com/a88zach/test-workflow#readme",
+  "devDependencies": {
+    "semantic-release": "18.0.0"
+  },
+  "release": {
+    "branches": "main",
+    "tagFormat": "types${version}",
+    "plugins": [
+      "@semantic-release/npm"
+    ]
+  }
 }
